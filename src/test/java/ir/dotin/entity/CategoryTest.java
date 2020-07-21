@@ -1,7 +1,5 @@
 package ir.dotin.entity;
-
 import ir.dotin.da.CategoryDA;
-
 import java.util.Arrays;
 
 public class CategoryTest {
@@ -10,7 +8,7 @@ public class CategoryTest {
         addPersonRoleCategory();
         addOffRequestCategory();
     }
-
+    //Creating Cat & SubCat for OffRequest
     private static void addOffRequestCategory() {
         Category category = new Category();
         category.setCategoryName("OffRequestType");
@@ -32,16 +30,11 @@ public class CategoryTest {
         } else {
             category.setSubCategories(Arrays.asList(subCategory, subCategory2));
         }
-
         CategoryDA categoryDA = new CategoryDA();
         categoryDA.addCategory(category);
-
-
     }
-
-
+    //Creating Cat & SubCat for Role
     private static void addPersonRoleCategory() {
-        CategoryDA categoryDA = new CategoryDA();
         Category category = new Category();
         category.setCategoryName("PersonRole");
         category.setCategoryFarsiName("شغل شخص");
@@ -59,6 +52,8 @@ public class CategoryTest {
         developer.setMainCategory(category);
         tester.setMainCategory(category);
 
+        CategoryDA categoryDA = new CategoryDA();
         categoryDA.addCategory(category);
     }
+
 }

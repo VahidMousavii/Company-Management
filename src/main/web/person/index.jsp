@@ -25,12 +25,8 @@
     </tr>
     <c:forEach items="${requestScope.personController.personList}" var="person">
         <tr>
-            <form action="/person/delete.do">
                 <td>${person.personId}</td>
-                <td><input type="hidden" name="personId" value="${person.personId}"></td>
                 <td>${person.name}</td>
-                <td><input type="submit" name="delete" value="delete"></td>
-            </form>
         </tr>
     </c:forEach>
 </table>

@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Entity(name = "off_Request_tbl")
 @Getter

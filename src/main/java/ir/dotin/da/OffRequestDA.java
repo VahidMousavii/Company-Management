@@ -1,20 +1,20 @@
 package ir.dotin.da;
 
-import ir.dotin.entity.DayOffRequest;
-import ir.dotin.entity.Person;
+import ir.dotin.entity.OffRequest;
+
 import ir.dotin.util.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import java.util.List;
 
-public class DayOffRequestDA {
-    public void addDayOffRequest(DayOffRequest dayOffRequest) {
+public class OffRequestDA {
+    public void addOffRequest(OffRequest offRequest) {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(dayOffRequest);
+            session.save(offRequest);
             session.getTransaction().commit();
         } finally {
             if (session != null) {
@@ -23,11 +23,11 @@ public class DayOffRequestDA {
         }
     }
 
-    public List<DayOffRequest> findAll() {
+    public List<OffRequest> findAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from dayoffrequest_tbl ");
-        List<DayOffRequest> list = query.list();
+        Query query = session.createQuery("from off_Request_tbl ");
+        List<OffRequest> list = query.list();
         return list;
     }
 
