@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Company-Management:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Company-Management</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Company-Management-1.0.war">
+      <element id="artifact" artifact-name="Company-Management:war exploded" />
+    </root>
+  </artifact>
+</component>
