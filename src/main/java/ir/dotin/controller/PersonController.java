@@ -15,6 +15,7 @@ import java.util.List;
 public class PersonController {
     private List<Person> personList;
 
+
     public List<Person> getPersonList() {
         return personList;
     }
