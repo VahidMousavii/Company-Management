@@ -26,7 +26,7 @@ public class CategoryDA {
     public SubCategory findByName(String name) {
         Session session = null;
         try {
-            session=HibernateUtil.getSessionFactory().openSession();
+            session = HibernateUtil.getSessionFactory().openSession();
             Query query = session.createQuery("from sub_category_tbl sc where sc.subCategoryName like :name");
             query.setParameter("name", name);
             SubCategory subCategory = (SubCategory) query.uniqueResult();

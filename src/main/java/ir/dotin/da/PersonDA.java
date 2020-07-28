@@ -10,21 +10,37 @@ import org.hibernate.Transaction;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.List;
+
 @Repository
 @Scope("prototype")
 public class PersonDA {
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;
-    public void addPerson(Person person) {
+
+    public List<Person> findAll() {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(person);
+            Query query = session.createQuery("from person_tbl");
+            List<Person> list = query.list();
+            return list;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+
+    public void update(Person person) {
+        if (person.getActive() == null) {
+            person.setActive(false);
+        }
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.saveOrUpdate(person);
             session.getTransaction().commit();
         } finally {
             if (session != null) {
@@ -33,28 +49,22 @@ public class PersonDA {
         }
     }
 
-    public List<Person> findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from person_tbl");
-        List<Person> list = query.list();
-        return list;
-    }
-
-    public void update(Person person) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(person);
-        session.getTransaction().commit();
-    }
-
     public void deleteByID(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("delete from person_tbl pt where pt.id = :personId");
-        query.setParameter("personId", id);
-        query.executeUpdate();
-        tx.commit();
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Transaction tx = session.beginTransaction();
+            Query query = session.createQuery("delete from person_tbl pt where pt.personID = :personId");
+            query.setParameter("personId", id);
+            query.executeUpdate();
+            tx.commit();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 
     public List<Person> findByName(String name) {
@@ -72,7 +82,7 @@ public class PersonDA {
     }
 
     public Person loadPerson(Long id) {
-        return (Person) HibernateUtil.getSessionFactory().openSession().load(Person.class, id);
+        return (Person) HibernateUtil.getSessionFactory().openSession().get(Person.class, id);
     }
 
     public Person loadPerson(Person person) {
@@ -80,31 +90,65 @@ public class PersonDA {
     }
 
     public void save(Person person) {
+        if (person.getActive() == null) {
+            person.setActive(false);
+        }
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
 
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        session.save(person);
-        tx.commit();
-        sessionFactory.close();
+            session.save(person);
+            tx.commit();
+        } finally {
+            if (session != null)
+                session.close();
+        }
     }
 
     public void saveRole(SubCategory subCategory) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.saveOrUpdate(subCategory);
-        tx.commit();
-        sessionFactory.close();
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            session.saveOrUpdate(subCategory);
+            tx.commit();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
-    /*public List<PersonTO> selectByName(String name) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from PersonTO u where u.name like :name");
-        query.setParameter("name", "%" + name + "%");
-        List<PersonTO> list = query.list();
-        return list;
-    }*/
+    public void active(Person person) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            Person loadedPerson = (Person) session.get(Person.class, person.getPersonID());
+            loadedPerson.setActive(true);
+            session.saveOrUpdate(loadedPerson);
+            tx.commit();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void deactivate(Person person) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            Person loadedPerson = (Person) session.get(Person.class, person.getPersonID());
+            loadedPerson.setActive(false);
+            session.saveOrUpdate(loadedPerson);
+            tx.commit();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }

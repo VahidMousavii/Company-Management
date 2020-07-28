@@ -24,12 +24,19 @@ public class OffRequestDA {
     }
 
     public List<OffRequest> findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from off_Request_tbl ");
-        List<OffRequest> list = query.list();
-        return list;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query = session.createQuery("from off_Request_tbl ");
+            List<OffRequest> list = query.list();
+            session.getTransaction().commit();
+            return list;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
-
 
 }

@@ -18,7 +18,7 @@ public class App {
         person.setPersonName("Vahid");
         //Email
         Email email = new Email();
-        email.setEmailContent("salam 3");
+        email.setEmailContent("salam ....");
         email.setSenderPerson(person);
         email.setReceiverPersons(Arrays.asList(person));
         person.setReceivedPersonEmails(Arrays.asList(email));

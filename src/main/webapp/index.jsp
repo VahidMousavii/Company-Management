@@ -4,6 +4,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  INDEX JSP PAGE
   </body>
 </html>

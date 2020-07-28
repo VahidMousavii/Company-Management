@@ -63,12 +63,14 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ORACLE database driver -->
-        <!--<dependency>
+
+<!--
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0</version>
-        </dependency>-->
+        </dependency>
+-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -111,7 +113,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <webXml>src/main/web/WEB-INF/web.xml</webXml>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
             </plugin>
         </plugins>

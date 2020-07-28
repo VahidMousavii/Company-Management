@@ -15,8 +15,8 @@ public class EmailDA {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.save(email);
-/*            Person person = (Person) session.load(Person.class, email.getSenderPerson().getPersonID());
-            session.saveOrUpdate(person);*/
+            Person person = (Person) session.load(Person.class, email.getSenderPerson().getPersonID());
+            session.saveOrUpdate(person);
             for (Person receiverPerson : email.getReceiverPersons()) {
                 session.saveOrUpdate(receiverPerson);
             }
@@ -27,12 +27,21 @@ public class EmailDA {
             }
         }
     }
+
     public List<Email> findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from email_tbl ");
-        List<Email> list = query.list();
-        return list;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query = session.createQuery("from email_tbl ");
+            List<Email> list = query.list();
+            session.getTransaction().commit();
+            return list;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
 }

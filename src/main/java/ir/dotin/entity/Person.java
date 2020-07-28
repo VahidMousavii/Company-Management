@@ -21,6 +21,7 @@ public class Person {
     private String phone;
     private String nationalCode;
     private String personnelCode;
+    private Boolean active;
 
     //yek person mitavanad chandin email daryaft shode dashte bashad
     //va yek email mitavanad be chand nafar ersal shavad(ersale gorohi be chandin nafar)
